@@ -1,0 +1,41 @@
+micronaut:
+  application:
+    name: overdose
+  server:
+    context-path: /api/overdose/v1
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      openapi-explorer:
+        paths: classpath:META-INF/swagger/views/openapi-explorer
+        mapping: /openapi-explorer/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
+
+endpoints:
+  health:
+    enable: true
+    sensitive: false
+  info:
+    enable: true
+    sensitive: false
+
+r2dbc:
+  datasources:
+    default:
+      dialect: POSTGRES
+      url: r2dbc:postgresql://localhost:5432
+      database: postgres
+      username: postgres
+      password: postgres
+#      options:
+#        driver: pool
+#        maxSize: 5
+#        initialSize: 1
+#        poolName: r2dbc
+#        registerJmx:  false
+#        validateQuery: "SELECT 1;"
+#        protocol:

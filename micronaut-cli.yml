@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.llo
+testFramework: junit
+sourceLanguage: java
+buildTool: maven
+features: [annotation-api, app-name, data, data-r2dbc, hibernate-reactive-jpa, http-client-test, java, java-application, junit, logback, lombok, maven, maven-enforcer-plugin, micronaut-aot, micronaut-http-validation, mockito, netty-server, openapi, openapi-explorer, postgres, r2dbc, reactor, readme, serialization-jackson, shade, static-resources, swagger-ui, test-resources, yaml, yaml-build]
