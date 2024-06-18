@@ -8,6 +8,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 import reactor.util.annotation.Nullable;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @MappedEntity
 @Builder
 @Data
+@ToString
 @Table(name = "medicine", schema = "overdose")
 public class Medicine implements Serializable {
     @Id
