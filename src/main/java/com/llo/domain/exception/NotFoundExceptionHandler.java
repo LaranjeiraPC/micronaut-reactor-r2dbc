@@ -10,15 +10,15 @@ import jakarta.inject.Singleton;
 
 @Produces
 @Singleton
-@Requires(classes = {BusinessException.class, ExceptionHandler.class})
-public class BusinessExceptionHandler implements ExceptionHandler<BusinessException, HttpResponse<ErrorDTO>> {
+@Requires(classes = {NotFoundException.class, ExceptionHandler.class})
+public class NotFoundExceptionHandler implements ExceptionHandler<NotFoundException, HttpResponse<ErrorDTO>> {
 
     @Override
-    public HttpResponse<ErrorDTO> handle(HttpRequest request, BusinessException exception) {
+    public HttpResponse<ErrorDTO> handle(HttpRequest request, NotFoundException exception) {
         var error = ErrorDTO.builder()
                 .message(exception.getMessage())
                 .build();
-        return HttpResponse.badRequest(error);
+        return HttpResponse.notFound(error);
     }
 
 }

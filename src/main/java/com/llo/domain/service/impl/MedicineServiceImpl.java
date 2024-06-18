@@ -1,6 +1,6 @@
 package com.llo.domain.service.impl;
 
-import com.llo.domain.exception.BusinessException;
+import com.llo.domain.exception.NotFoundException;
 import com.llo.domain.model.entity.Medicine;
 import com.llo.domain.repository.MedicineRepository;
 import com.llo.domain.service.MedicineService;
@@ -27,8 +27,8 @@ public class MedicineServiceImpl implements MedicineService {
     @Override
     public Mono<Medicine> getMedicine(String name) {
         return this.medicineRepository.findByName(name)
-                .switchIfEmpty(Mono.error(new BusinessException("Medicine not found!")))
-                .singleOrEmpty();
+                .switchIfEmpty(Mono.error(new NotFoundException("Medicine not found!")))
+                .single();
     }
 
     @Override
