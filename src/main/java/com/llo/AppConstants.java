@@ -8,4 +8,7 @@ public abstract class AppConstants {
     public static final String MEDICINE_UPDATE = "OK - Medicine updated";
     public static final String MEDICINE_CREATE = "Created - Medicine created";
     public static final String MEDICINE_DELETED = "Deleted - Medicine deleted";
+    public static final String MEDICINE_ALREADY_REGISTERED = "Medicine already registered!";
+    public static final String MEDICINE_NOT_FOUND = "Medicine not found!";
+    public static final String MEDICINE_DELETED_SUCESS = "Medicine deleted sucess!";
 }

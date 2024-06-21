@@ -18,6 +18,8 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.llo.AppConstants.*;
+
 @Slf4j
 @Singleton
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
@@ -33,7 +35,7 @@ public class MedicineServiceImpl implements MedicineService {
     @Override
     public Mono<Medicine> getMedicine(String name) {
         return this.medicineRepository.findByName(name)
-                .switchIfEmpty(Mono.error(new NotFoundException("Medicine not found!")))
+                .switchIfEmpty(Mono.error(new NotFoundException(MEDICINE_NOT_FOUND)))
                 .single();
     }
 
@@ -42,7 +44,7 @@ public class MedicineServiceImpl implements MedicineService {
         return this.medicineRepository.findByName(medicineDTO.getName())
                 .filter(medicine -> {
                     if (Objects.nonNull(medicine))
-                        throw new BusinessException("Medicine already registered!");
+                        throw new BusinessException(MEDICINE_ALREADY_REGISTERED);
                     return true;
                 })
                 .switchIfEmpty(this.defineMedicine(medicineDTO))
@@ -54,7 +56,7 @@ public class MedicineServiceImpl implements MedicineService {
     @Override
     public Mono<MedicineDTO> updateMedicine(String nameMedicine, MedicineContext medicineContext) {
         return this.medicineRepository.findByName(nameMedicine)
-                .switchIfEmpty(Mono.error(new NotFoundException("Medicine not found!")))
+                .switchIfEmpty(Mono.error(new NotFoundException(MEDICINE_NOT_FOUND)))
                 .flatMap(medicine -> this.defineMedicineUpdate(medicine, medicineContext))
                 .flatMap(this::update)
                 .flatMap(medicineUpdated -> {
@@ -73,7 +75,7 @@ public class MedicineServiceImpl implements MedicineService {
     @Override
     public Mono<Void> deleteMedicine(String nameMedicine) {
         return this.medicineRepository.deleteByName(nameMedicine)
-                .doOnSuccess(l -> log.info("Register deleted sucess!"));
+                .doOnSuccess(l -> log.info(MEDICINE_DELETED_SUCESS));
     }
 
     private Mono<Medicine> save(Medicine medicine) {
