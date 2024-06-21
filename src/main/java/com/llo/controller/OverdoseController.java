@@ -1,12 +1,13 @@
 package com.llo.controller;
 
+import com.llo.domain.model.dto.MedicineDTO;
 import com.llo.domain.model.entity.Medicine;
 import com.llo.domain.service.MedicineService;
+import com.llo.workflow.context.MedicineContext;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.PathVariable;
+import io.micronaut.http.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,5 +47,42 @@ public class OverdoseController {
                 .flatMap(result -> Mono.just(HttpResponse.ok(result)));
     }
 
+    @Post(uri = "/medicine", produces = "application/json")
+    @Operation(summary = "Save a medicine", description = "Save a medicine")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Data queried successfully!"),
+            @ApiResponse(responseCode = "404", description = "Not Found - Medicine not found"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Medicine já cadastrado"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Erro inesperado no processamento de dados")
+    })
+    Mono<HttpResponse<MedicineDTO>> saveMedicine(@RequestBody @Body MedicineDTO medicineDTO) {
+        return this.medicineService.saveMedicine(medicineDTO)
+                .flatMap(result -> Mono.just(HttpResponse.created(result)));
+    }
+
+    @Delete(uri = "/medicine/{name}", produces = "application/json")
+    @Operation(summary = "Delete a respective medicine", description = "Delete a respective medicine search by name")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Data queried successfully!"),
+            @ApiResponse(responseCode = "404", description = "Not Found - Medicine not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Erro inesperado no processamento de dados")
+    })
+    Mono<HttpResponse<Void>> deleteMedicine(@PathVariable(name = "name") String name) {
+        return this.medicineService.deleteMedicine(name)
+                .then(Mono.just(HttpResponse.noContent()));
+    }
+
+    @Put(uri = "/medicine/{name}", produces = "application/json")
+    @Operation(summary = "Update a medicine", description = "Update a medicine by name")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Data queried successfully!"),
+            @ApiResponse(responseCode = "404", description = "Not Found - Medicine not found"),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Medicine já cadastrado"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error - Erro inesperado no processamento de dados")
+    })
+    Mono<HttpResponse<MedicineDTO>> updateMedicine(@RequestBody @Body MedicineContext medicineContext, @PathVariable(name = "name") String name) {
+        return this.medicineService.updateMedicine(name, medicineContext)
+                .flatMap(result -> Mono.just(HttpResponse.ok(result)));
+    }
 
 }

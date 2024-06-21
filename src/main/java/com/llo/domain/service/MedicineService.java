@@ -1,5 +1,6 @@
 package com.llo.domain.service;
 
+import com.llo.domain.model.dto.MedicineDTO;
 import com.llo.domain.model.entity.Medicine;
 import com.llo.workflow.context.MedicineContext;
 import reactor.core.publisher.Flux;
@@ -11,10 +12,10 @@ public interface MedicineService {
 
     Mono<Medicine> getMedicine(String name);
 
-    Mono<Medicine> saveMedicine(Medicine medicine);
+    Mono<MedicineDTO> saveMedicine(MedicineDTO medicine);
 
-    Mono<Medicine> updateMedicine(String nameMedicine, MedicineContext medicineContext);
+    Mono<MedicineDTO> updateMedicine(String nameMedicine, MedicineContext medicineContext);
 
-    void deleteMedicine(String nameMedicine);
+    Mono<Void> deleteMedicine(String nameMedicine);
 
 }
