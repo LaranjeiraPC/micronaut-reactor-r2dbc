@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import static com.llo.AppConstants.*;
+
 @Slf4j
 @Tag(name = "Medicine")
 @Controller
@@ -28,8 +30,8 @@ public class OverdoseController {
     @Get(uri = "/medicines", produces = "application/json")
     @Operation(summary = "Get all medicines", description = "Get all medicines with details")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Data queried successfully!"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error - Erro inesperado no processamento de dados")
+            @ApiResponse(responseCode = "200", description = DATA_QUERIED_SUCCESSFULLY),
+            @ApiResponse(responseCode = "500", description = INTERNAL_SERVER_ERROR_UNEXPECTED_ERROR_DATA_PROCESSING)
     })
     Flux<Medicine> getMedicines() {
         return this.medicineService.getAllMedicines();
@@ -38,9 +40,9 @@ public class OverdoseController {
     @Get(uri = "/medicine/{name}", produces = "application/json")
     @Operation(summary = "Get a respective medicine search", description = "Get a respective medicine search by name")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Data queried successfully!"),
-            @ApiResponse(responseCode = "404", description = "Not Found - Medicine not found"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error - Erro inesperado no processamento de dados")
+            @ApiResponse(responseCode = "200", description = DATA_QUERIED_SUCCESSFULLY),
+            @ApiResponse(responseCode = "404", description = NOT_FOUND_MEDICINE),
+            @ApiResponse(responseCode = "500", description = INTERNAL_SERVER_ERROR_UNEXPECTED_ERROR_DATA_PROCESSING)
     })
     Mono<HttpResponse<Medicine>> getMedicine(@PathVariable(name = "name") String name) {
         return this.medicineService.getMedicine(name)
@@ -50,10 +52,9 @@ public class OverdoseController {
     @Post(uri = "/medicine", produces = "application/json")
     @Operation(summary = "Save a medicine", description = "Save a medicine")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Data queried successfully!"),
-            @ApiResponse(responseCode = "404", description = "Not Found - Medicine not found"),
-            @ApiResponse(responseCode = "400", description = "Bad Request - Medicine já cadastrado"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error - Erro inesperado no processamento de dados")
+            @ApiResponse(responseCode = "201", description = MEDICINE_CREATE),
+            @ApiResponse(responseCode = "400", description = BAD_REQUEST_MEDICINE_ALREADY_REGISTERED),
+            @ApiResponse(responseCode = "500", description = INTERNAL_SERVER_ERROR_UNEXPECTED_ERROR_DATA_PROCESSING)
     })
     Mono<HttpResponse<MedicineDTO>> saveMedicine(@RequestBody @Body MedicineDTO medicineDTO) {
         return this.medicineService.saveMedicine(medicineDTO)
@@ -63,9 +64,9 @@ public class OverdoseController {
     @Delete(uri = "/medicine/{name}", produces = "application/json")
     @Operation(summary = "Delete a respective medicine", description = "Delete a respective medicine search by name")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Data queried successfully!"),
-            @ApiResponse(responseCode = "404", description = "Not Found - Medicine not found"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error - Erro inesperado no processamento de dados")
+            @ApiResponse(responseCode = "204", description = MEDICINE_DELETED),
+            @ApiResponse(responseCode = "404", description = NOT_FOUND_MEDICINE),
+            @ApiResponse(responseCode = "500", description = INTERNAL_SERVER_ERROR_UNEXPECTED_ERROR_DATA_PROCESSING)
     })
     Mono<HttpResponse<Void>> deleteMedicine(@PathVariable(name = "name") String name) {
         return this.medicineService.deleteMedicine(name)
@@ -75,10 +76,9 @@ public class OverdoseController {
     @Put(uri = "/medicine/{name}", produces = "application/json")
     @Operation(summary = "Update a medicine", description = "Update a medicine by name")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Data queried successfully!"),
-            @ApiResponse(responseCode = "404", description = "Not Found - Medicine not found"),
-            @ApiResponse(responseCode = "400", description = "Bad Request - Medicine já cadastrado"),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error - Erro inesperado no processamento de dados")
+            @ApiResponse(responseCode = "200", description = MEDICINE_UPDATE),
+            @ApiResponse(responseCode = "404", description = NOT_FOUND_MEDICINE),
+            @ApiResponse(responseCode = "500", description = INTERNAL_SERVER_ERROR_UNEXPECTED_ERROR_DATA_PROCESSING)
     })
     Mono<HttpResponse<MedicineDTO>> updateMedicine(@RequestBody @Body MedicineContext medicineContext, @PathVariable(name = "name") String name) {
         return this.medicineService.updateMedicine(name, medicineContext)
